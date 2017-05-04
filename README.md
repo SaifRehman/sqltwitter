@@ -1,0 +1,2 @@
+# sqltwitter
+pip install sqltwitter
