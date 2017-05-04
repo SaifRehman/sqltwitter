@@ -1,0 +1,7 @@
+setup.py
+sqltwitter.egg-info/PKG-INFO
+sqltwitter.egg-info/SOURCES.txt
+sqltwitter.egg-info/dependency_links.txt
+sqltwitter.egg-info/not-zip-safe
+sqltwitter.egg-info/requires.txt
+sqltwitter.egg-info/top_level.txt
