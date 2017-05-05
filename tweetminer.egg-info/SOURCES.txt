@@ -1,0 +1,8 @@
+setup.py
+tweetminer/__init__.py
+tweetminer.egg-info/PKG-INFO
+tweetminer.egg-info/SOURCES.txt
+tweetminer.egg-info/dependency_links.txt
+tweetminer.egg-info/not-zip-safe
+tweetminer.egg-info/requires.txt
+tweetminer.egg-info/top_level.txt

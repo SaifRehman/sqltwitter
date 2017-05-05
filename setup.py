@@ -1,12 +1,12 @@
 from setuptools import setup
 
-setup(name='sqltwitter',
+setup(name='tweetminer',
       version='0.1',
       description='Mine for tweets with certain hashtag',
       author='saif rehman',
       author_email='saif.urrehman@alasbab.com',
       license='MIT',
-      packages=['sqltwitter'],
+      packages=['tweetminer'],
       install_requires=['tweepy','MySQL-python'],
-      keywords = ['testing', 'logging', 'example','twitter','mining'], # arbitrary keywords
+      keywords = ['testing', 'logging', 'example','twitter','mining'],
       zip_safe=False)
