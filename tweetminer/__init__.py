@@ -8,6 +8,7 @@ global HOST
 global USER
 global PASSWD
 global DATABASE
+from textblob import TextBlob
 def setdb(HOSTval,USERval,PASSWDval,DATABASEval):
     global HOST
     global USER
@@ -17,20 +18,21 @@ def setdb(HOSTval,USERval,PASSWDval,DATABASEval):
     USER = USERval
     PASSWD = PASSWDval
     DATABASE = DATABASEval
-def store_data(created_at, text, screen_name, tweet_id):
+def store_data(created_at, text, screen_name, tweet_id,sentiment):
     db=MySQLdb.connect(host=HOST, user=USER, passwd=PASSWD, db=DATABASE, charset="utf8")
     cursor = db.cursor()
     cursor.execute("select * from information_schema.tables where table_name=%s", ('tweet',))
     if(bool(cursor.rowcount)):
-        insert_query = "INSERT INTO tweet (tweet_id, screen_name, created_at, tweet) VALUES (%s, %s, %s, %s)"
-        cursor.execute(insert_query, (tweet_id, screen_name, created_at, text))
+        insert_query = "INSERT INTO tweet (tweet_id, screen_name, created_at, tweet,sentiment) VALUES (%s, %s, %s, %s,%s)"
+        cursor.execute(insert_query, (tweet_id, screen_name, created_at, text,str(sentiment)))
         db.commit()
         cursor.close()
         db.close()
         return
     else:
-        cursor.execute("CREATE TABLE tweet (postid serial PRIMARY KEY NOT NULL , tweet_id varchar(200) NOT NULL , screen_name text NOT NULL, created_at text NOT NULL, tweet text NOT NULL);")
-        cursor.execute(insert_query, (tweet_id, screen_name, created_at, text))
+        cursor.execute("CREATE TABLE tweet (postid serial PRIMARY KEY NOT NULL , tweet_id varchar(200) NOT NULL , screen_name text NOT NULL, created_at text NOT NULL, tweet text NOT NULL, sentiment text NOT NULL);")
+        insert_query = "INSERT INTO tweet (tweet_id, screen_name, created_at, tweet,sentiment) VALUES (%s, %s, %s, %s,%s)"
+        cursor.execute(insert_query, (tweet_id, screen_name, created_at, text,str(sentiment)))
         db.commit()
         cursor.close()
         db.close()
@@ -45,10 +47,12 @@ class StdOutListener(StreamListener):
             screen_name = datajson['user']['screen_name']
             tweet_id = datajson['id']
             created_at = parser.parse(datajson['created_at'])
+            sentiment = TextBlob(text)
+            sentiment = sentiment.sentiment.polarity
             #print out a message to the screen that we have collected a tweet
             print("Tweet collected at " + str(created_at))
             #insert the data into the MySQL database
-            store_data(created_at, text, screen_name, tweet_id)
+            store_data(created_at, text, screen_name, tweet_id,sentiment)
         except Exception as e:
             print(e)
             print self
